@@ -7,6 +7,7 @@ import reactor.core.publisher.Flux;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -26,7 +27,9 @@ public class MyController {
   }
 
   @GetMapping(value = "/ai/genstream", produces = MediaType.APPLICATION_JSON_VALUE)
-  public Flux<String> getWeatherStream() {
-    return this.chatClient.prompt("東京の天気は？").stream().content();
+  public Flux<String> getWeatherStream(
+    @RequestParam(value = "message", defaultValue = "Tell me a joke") String message
+  ) {
+    return this.chatClient.prompt(message).stream().content();
   }
 }

@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,9 +28,9 @@ public class MyController {
   }
 
   @GetMapping(value = "/ai/genstream", produces = MediaType.APPLICATION_JSON_VALUE)
-  public Flux<String> getWeatherStream(
+  public Flux<ChatResponse> getWeatherStream(
     @RequestParam(value = "message", defaultValue = "Tell me a joke") String message
   ) {
-    return this.chatClient.prompt(message).stream().content();
+    return this.chatClient.prompt(message).stream().chatResponse();
   }
 }

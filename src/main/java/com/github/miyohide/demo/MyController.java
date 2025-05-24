@@ -23,7 +23,7 @@ public class MyController {
     this.chatClient = builder.build();
   }
 
-  @PostMapping("/ai/gen")
+  @PostMapping("/chat")
   public Map<String, String> chat(
     @RequestParam(value = "message", defaultValue = "Tell me a joke") String message
   ) {

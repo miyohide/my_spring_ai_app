@@ -22,7 +22,7 @@ public class MyController {
   }
 
   @GetMapping("/ai/gen")
-  public Map<String, String> getWeather(
+  public Map<String, String> chat(
     @RequestParam(value = "message", defaultValue = "Tell me a joke") String message
   ) {
     String response = this.chatClient.prompt(message).call().content();
@@ -30,7 +30,7 @@ public class MyController {
   }
 
   @GetMapping(value = "/ai/genstream", produces = MediaType.APPLICATION_JSON_VALUE)
-  public Flux<String> getWeatherStream(
+  public Flux<String> chatStream(
     @RequestParam(value = "message", defaultValue = "Tell me a joke") String message
   ) {
     return this.chatClient.prompt(message).stream().content();

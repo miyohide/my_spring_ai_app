@@ -22,8 +22,10 @@ public class MyController {
   }
 
   @GetMapping("/ai/gen")
-  public Map<String, String> getWeather() {
-    String response = this.chatClient.prompt("東京の天気は？").call().content();
+  public Map<String, String> getWeather(
+    @RequestParam(value = "message", defaultValue = "Tell me a joke") String message
+  ) {
+    String response = this.chatClient.prompt(message).call().content();
     return Map.of("gen", response);
   }
 

@@ -30,9 +30,9 @@ public class MyController {
   }
 
   @GetMapping(value = "/ai/genstream", produces = MediaType.APPLICATION_JSON_VALUE)
-  public Flux<ChatResponse> getWeatherStream(
+  public Flux<String> getWeatherStream(
     @RequestParam(value = "message", defaultValue = "Tell me a joke") String message
   ) {
-    return this.chatClient.prompt(message).stream().chatResponse();
+    return this.chatClient.prompt(message).stream().content();
   }
 }

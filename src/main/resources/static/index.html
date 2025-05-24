@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Chat</title>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+</head>
+<body>
+    <div class="chat-messages">
+        <pre></pre>
+    </div>
+    <div>
+        <form hx-post="/ai/gen" hx-target="#chat-messages" hx-swap=""beforeend>
+            <div>
+                <input type="text" name="message" id="message">
+                <button type="submit">送信</button>
+            </div>
+        </form>
+    </div>
+    <script>
+        document.body.addEventListener('htmx:afterRequest', function (event) {
+            if (event.detail.elt.getAttribute('name') === 'message') {
+                event.detail.elt.value = '';
+            }
+        });
+    </script>
+</body>
+</html>

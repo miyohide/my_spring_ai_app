@@ -7,6 +7,7 @@ import reactor.core.publisher.Flux;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,7 +21,7 @@ public class MyController {
     this.chatClient = builder.build();
   }
 
-  @GetMapping("/ai/gen")
+  @PostMapping("/ai/gen")
   public Map<String, String> chat(
     @RequestParam(value = "message", defaultValue = "Tell me a joke") String message
   ) {

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stream</title>
+</head>
+<body>
+    <div id="chat-messages"></div>
+    <div>
+        <form id="chat-form">
+            <input type="text" name="message-input" id="message-input">
+            <button type="submit">送信</button>
+        </form>
+    </div>
+    <script>
+        const chatMessages = document.getElementById('chat-messages');
+        const chatForm = document.getElementById('chat-form');
+        const messageInput = document.getElementById('message-input');
+
+        chatForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const message = messageInput.value;
+            messageInput.value = '';
+
+            chatMessages.innerHTML += `<div><strong>You:</strong> ${message}</div>`;
+
+            const aiMessageContainer = document.createElement('div');
+            aiMessageContainer.innerHTML = '<strong>AI:</strong>';
+            const aiMessageContent = document.createElement('span');
+            aiMessageContainer.appendChild(aiMessageContent);
+            chatMessages.appendChild(aiMessageContainer);
+
+            try {
+                const response = await fetchStreamWithRetry(`/ai/genStream?message=${encodeURIComponent(message)}`);
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+
+                while (true) {
+                    const { value, done } = await reader.read();
+                    if (done) {
+                        break;
+                    }
+                    const decodedChunk = decoder.decode(value, { stream: true });
+                    aiMessageContent.textContent += decodedChunk;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                aiMessageContent.textContent += 'Error occured while fetching the response.';
+            }
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        });
+
+        async function fetchStreamWithRetry(url, retries = 3) {
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const response = await fetch(url);
+                    if (response.ok) {
+                        return response;
+                    }
+                } catch (error) {
+                    if (i === retries -1) {
+                        throw error;
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>

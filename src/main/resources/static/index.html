@@ -20,12 +20,5 @@
             </div>
         </form>
     </div>
-    <script>
-        document.body.addEventListener('htmx:afterRequest', function (event) {
-            if (event.detail.elt.getAttribute('name') === 'message') {
-                event.detail.elt.value = '';
-            }
-        });
-    </script>
 </body>
 </html>

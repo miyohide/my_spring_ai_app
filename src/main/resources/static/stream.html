@@ -25,11 +25,11 @@
 
             chatMessages.innerHTML += `<div><strong>You:</strong> ${message}</div>`;
 
-            const aiMessageContainer = document.createElement('div');
-            aiMessageContainer.innerHTML = '<strong>AI:</strong>';
-            const aiMessageContent = document.createElement('span');
-            aiMessageContainer.appendChild(aiMessageContent);
-            chatMessages.appendChild(aiMessageContainer);
+            const messageDiv = document.createElement('div');
+            messageDiv.innerHTML = '<strong>AI:</strong>';
+            const aiContents = document.createElement('span');
+            messageDiv.appendChild(aiContents);
+            chatMessages.appendChild(messageDiv);
 
             try {
                 const response = await fetchStreamWithRetry(`/chatstream?message=${encodeURIComponent(message)}`);
@@ -42,11 +42,11 @@
                         break;
                     }
                     const decodedChunk = decoder.decode(value, { stream: true });
-                    aiMessageContent.textContent += decodedChunk;
+                    aiContents.textContent += decodedChunk;
                 }
             } catch (error) {
                 console.error('Error:', error);
-                aiMessageContent.textContent += 'Error occured while fetching the response.';
+                aiContents.textContent += 'Error occured while fetching the response.';
             }
             chatMessages.scrollTop = chatMessages.scrollHeight;
         });

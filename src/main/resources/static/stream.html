@@ -32,7 +32,7 @@
             chatMessages.appendChild(aiMessageContainer);
 
             try {
-                const response = await fetchStreamWithRetry(`/ai/genstream?message=${encodeURIComponent(message)}`);
+                const response = await fetchStreamWithRetry(`/chatstream?message=${encodeURIComponent(message)}`);
                 const reader = response.body.getReader();
                 const decoder = new TextDecoder();
 

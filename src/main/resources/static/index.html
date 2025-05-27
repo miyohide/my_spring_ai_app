@@ -4,21 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Chat</title>
-    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
 </head>
 <body>
     <div>
-        <div id="chat-messages">
-            <pre></pre>
+        <div id="chat-history">
         </div>
     </div>
     <div>
-        <form hx-post="/chat" hx-target="#chat-messages" hx-swap="beforeend">
+        <form id="chat-form">
             <div>
                 <input type="text" name="message" id="message">
                 <button type="submit">送信</button>
             </div>
         </form>
     </div>
+    <script src="./js/chat.js"></script>
 </body>
 </html>

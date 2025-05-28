@@ -31,10 +31,8 @@ chatForm.addEventListener('submit', async (e) => {
 
     // Bedrockにリクエスト送信
     try {
-      const response = await fetch('/chat', {
+      const response = await fetch(`/chat?message=${encodeURIComponent(message)}`, {
         method: 'POST',
-        body: JSON.stringify({ message: userInput }),
-        headers: { 'Content-Type': 'application/json' }
       });
       const jsonData = await response.json();
       // JSONからテキスト部分を抽出（Bedrockのレスポンス構造に応じて調整）

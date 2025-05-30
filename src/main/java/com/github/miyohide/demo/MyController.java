@@ -22,7 +22,8 @@ public class MyController {
   private final ChatMemoryRepository chatMemoryRepository;
 
   public MyController(ChatClient.Builder builder, ChatMemoryRepository chatMemoryRepository) {
-    ChatMemory chatMemory = MessageWindowChatMemory.builder().build();
+    ChatMemory chatMemory =
+        MessageWindowChatMemory.builder().chatMemoryRepository(chatMemoryRepository).build();
     this.chatClient =
         builder.defaultAdvisors(MessageChatMemoryAdvisor.builder(chatMemory).build()).build();
     this.chatMemoryRepository = chatMemoryRepository;
@@ -43,11 +44,11 @@ public class MyController {
 
   @GetMapping("/chathistories")
   public List<String> getChatHistories() {
-      return chatMemoryRepository.findConversationIds();
+    return chatMemoryRepository.findConversationIds();
   }
 
   @GetMapping("/chathistories/{id}")
   public String getChatHitory(@PathVariable("id") String id) {
-      return chatMemoryRepository.findByConversationId(id).getFirst().toString();
+    return chatMemoryRepository.findByConversationId(id).getFirst().toString();
   }
 }

@@ -49,6 +49,6 @@ public class MyController {
 
   @GetMapping("/chathistories/{id}")
   public String getChatHitory(@PathVariable("id") String id) {
-    return chatMemoryRepository.findByConversationId(id).getFirst().toString();
+    return chatMemoryRepository.findByConversationId(id).toString();
   }
 }

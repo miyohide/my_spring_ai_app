@@ -1,6 +1,5 @@
 package com.github.miyohide.demo;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;

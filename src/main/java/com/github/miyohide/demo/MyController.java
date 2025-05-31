@@ -1,5 +1,8 @@
 package com.github.miyohide.demo;
 
+import java.sql.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
@@ -31,9 +34,15 @@ public class MyController {
 
   @PostMapping("/chat")
   public Map<String, String> chat(
-      @RequestParam(value = "message", defaultValue = "Tell me a joke") String message) {
+      @RequestParam(value = "message", defaultValue = "Tell me a joke") String message,
+      @RequestParam(value = "historyId", defaultValue = "") String historyId) {
+    if (historyId.isBlank()) {
+      LocalDateTime now = LocalDateTime.now();
+      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+      historyId = now.format(formatter);
+    }
     String response = this.chatClient.prompt(message).call().content();
-    return Map.of("response", response);
+    return Map.of("response", response, "historyId", historyId);
   }
 
   @GetMapping("/chatstream")

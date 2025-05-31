@@ -1,6 +1,7 @@
 const userInput = document.getElementById('message');
 const chatForm = document.getElementById('chat-form');
 const chatHistory = document.getElementById('chat-history');
+const historyId = document.getElementById('history-id');
 
 chatForm.addEventListener('submit', async (e) => {
     // デフォルトの挙動をキャンセル
@@ -8,6 +9,7 @@ chatForm.addEventListener('submit', async (e) => {
 
     // 入力された値を取得し、テキストボックスは次の入力のために空にする
     const message = userInput.value;
+    const historyIdValue = historyId.value;
     userInput.value = '';
     // 入力された値を画面表示
     chatHistory.innerHTML += `<div><strong>You: ${message}</strong></div>`;
@@ -31,13 +33,20 @@ chatForm.addEventListener('submit', async (e) => {
 
     // Bedrockにリクエスト送信
     try {
-      const response = await fetch(`/chat?message=${encodeURIComponent(message)}`, {
+      const url = `/chat?message=${encodeURIComponent(message)}`;
+      if (historyIdValue !== "") {
+        url += `&historyId=${encodeURIComponent(historyIdValue)}`;
+      }
+      const response = await fetch(url, {
         method: 'POST',
       });
       const jsonData = await response.json();
       // JSONからテキスト部分を抽出（Bedrockのレスポンス構造に応じて調整）
       const assistantText = jsonData.response;
+      historyIdValue = jsonData.historyId;
+
       aiContents.textContent = assistantText;
+      historyId.value = historyIdValue;
     } catch (error) {
       console.error('Error:', error);
       chatHistory.innerHTML += `<div class="error-message">エラーが発生しました</div>`;

@@ -33,7 +33,7 @@ chatForm.addEventListener('submit', async (e) => {
 
     // Bedrockにリクエスト送信
     try {
-      const url = `/chat?message=${encodeURIComponent(message)}`;
+      let url = `/chat?message=${encodeURIComponent(message)}`;
       if (historyIdValue !== "") {
         url += `&historyId=${encodeURIComponent(historyIdValue)}`;
       }
@@ -43,10 +43,9 @@ chatForm.addEventListener('submit', async (e) => {
       const jsonData = await response.json();
       // JSONからテキスト部分を抽出（Bedrockのレスポンス構造に応じて調整）
       const assistantText = jsonData.response;
-      historyIdValue = jsonData.historyId;
 
       aiContents.textContent = assistantText;
-      historyId.value = historyIdValue;
+      historyId.value = jsonData.historyId;
     } catch (error) {
       console.error('Error:', error);
       chatHistory.innerHTML += `<div class="error-message">エラーが発生しました</div>`;

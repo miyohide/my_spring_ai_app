@@ -22,7 +22,6 @@ The application provides two chat interfaces:
 
 1. Basic Chat Interface
    - Access at `http://localhost:8080`
-   - Uses HTMX for dynamic updates
 
 2. Streaming Chat Interface
    - Access at `http://localhost:8080/stream.html`
@@ -30,10 +29,12 @@ The application provides two chat interfaces:
 
 ## API Endpoints
 
-The application exposes two endpoints:
+The application exposes four endpoints:
 
 - `/chat` - Regular chat endpoint
 - `/chatstream` - Streaming response endpoint
+- `/chathistories` - Get all conversation ids
+- `/chathistories/{id}` - Get all history in specified conversion id
 
 ## Development
 

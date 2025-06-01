@@ -40,8 +40,9 @@ public class MyController {
       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
       historyId = now.format(formatter);
     }
-    log.info("historyId: {}", historyId);
-    String response = this.chatClient.prompt(message).call().content();
+    String finalHistoryId = historyId;
+    String response = this.chatClient.prompt(message)
+    .advisors(a -> a.param(ChatMemory.CONVERSATION_ID, finalHistoryId)).call().content();
     return Map.of("response", response, "historyId", historyId);
   }
 

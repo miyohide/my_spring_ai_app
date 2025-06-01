@@ -44,8 +44,12 @@ public class MyController {
     // advisorsにてhistoryIdを指定したいが、実質的にfinalでないとコンパイルエラーとなるため、
     // 実質的にfinalとなるように別の変数に格納する
     String finalHistoryId = historyId;
-    String response = this.chatClient.prompt(message)
-    .advisors(a -> a.param(ChatMemory.CONVERSATION_ID, finalHistoryId)).call().content();
+    String response =
+        this.chatClient
+            .prompt(message)
+            .advisors(a -> a.param(ChatMemory.CONVERSATION_ID, finalHistoryId))
+            .call()
+            .content();
     return Map.of("response", response, "historyId", historyId);
   }
 

@@ -35,11 +35,14 @@ public class MyController {
   public Map<String, String> chat(
       @RequestParam(value = "message", defaultValue = "Tell me a joke") String message,
       @RequestParam(value = "historyId", defaultValue = "") String historyId) {
+    // historyIdが指定されなかった場合、日付情報を元に生成する
     if (historyId.isBlank()) {
       LocalDateTime now = LocalDateTime.now();
       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
       historyId = now.format(formatter);
     }
+    // advisorsにてhistoryIdを指定したいが、実質的にfinalでないとコンパイルエラーとなるため、
+    // 実質的にfinalとなるように別の変数に格納する
     String finalHistoryId = historyId;
     String response = this.chatClient.prompt(message)
     .advisors(a -> a.param(ChatMemory.CONVERSATION_ID, finalHistoryId)).call().content();

@@ -7,6 +7,7 @@ import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
+import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.memory.ChatMemoryRepository;
 import org.springframework.ai.chat.memory.MessageWindowChatMemory;
@@ -27,7 +28,8 @@ public class MyController {
     ChatMemory chatMemory =
         MessageWindowChatMemory.builder().chatMemoryRepository(chatMemoryRepository).build();
     this.chatClient =
-        builder.defaultAdvisors(MessageChatMemoryAdvisor.builder(chatMemory).build()).build();
+        builder.defaultAdvisors(MessageChatMemoryAdvisor.builder(chatMemory).build(),
+        new SimpleLoggerAdvisor()).build();
     this.chatMemoryRepository = chatMemoryRepository;
   }
 

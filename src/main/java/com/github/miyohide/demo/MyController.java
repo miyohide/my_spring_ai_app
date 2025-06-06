@@ -24,12 +24,17 @@ public class MyController {
   private final ChatClient chatClient;
   private final ChatMemoryRepository chatMemoryRepository;
 
-  public MyController(ChatClient.Builder builder, ChatMemoryRepository chatMemoryRepository) {
+  public MyController(
+      ChatClient.Builder builder,
+      ChatMemoryRepository chatMemoryRepository,
+      SimpleLoggerAdvisor simpleLoggerAdvisor) {
     ChatMemory chatMemory =
         MessageWindowChatMemory.builder().chatMemoryRepository(chatMemoryRepository).build();
     this.chatClient =
-        builder.defaultAdvisors(MessageChatMemoryAdvisor.builder(chatMemory).build(),
-        new SimpleLoggerAdvisor()).build();
+        builder
+            .defaultAdvisors(
+                MessageChatMemoryAdvisor.builder(chatMemory).build(), simpleLoggerAdvisor)
+            .build();
     this.chatMemoryRepository = chatMemoryRepository;
   }
 

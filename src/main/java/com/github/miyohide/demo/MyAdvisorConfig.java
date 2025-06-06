@@ -9,8 +9,8 @@ public class MyAdvisorConfig {
   @Bean
   public SimpleLoggerAdvisor simpleLoggerAdvisor() {
     return new SimpleLoggerAdvisor(
-        request -> "Custom request: " + request.toString(),
-        response -> "Custom response: " + response.getResult(),
+        request -> "Custom request: " + request.prompt().getUserMessage(),
+        response -> "Custom response: " + response.getMetadata(),
         0
     );
   }

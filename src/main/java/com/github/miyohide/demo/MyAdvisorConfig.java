@@ -11,7 +11,6 @@ public class MyAdvisorConfig {
     return new SimpleLoggerAdvisor(
         request -> "Custom request: " + request.prompt().getUserMessage(),
         response -> "Custom response: " + response.getMetadata(),
-        0
-    );
+        0);
   }
 }

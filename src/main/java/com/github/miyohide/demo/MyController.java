@@ -75,4 +75,14 @@ public class MyController {
   public String getChatHitory(@PathVariable("id") String id) {
     return chatMemoryRepository.findByConversationId(id).toString();
   }
+
+  @GetMapping("/weather")
+  public String getWheather(
+      @RequestParam(value = "city", defaultValue = "Tokyo") String city) {
+    return this.chatClient
+        .prompt("What is the wheather in " + city + "?")
+        .tools(new WeatherTools())
+        .call()
+        .content();
+  }
 }
